@@ -1,0 +1,9 @@
+---
+- hosts: vagrant
+
+  vars:
+    user: "vagrant"
+
+  tasks:
+    - debug:
+        msg: "test"
