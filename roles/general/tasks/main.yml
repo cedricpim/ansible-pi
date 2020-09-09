@@ -7,6 +7,12 @@
     shell: "/bin/bash"
     state: "present"
 
+- name: "Set authorized key from local user"
+  authorized_key:
+    user: "{{ general_user }}"
+    key: "{{ lookup('file', '~/.ssh/raspberry_id_rsa.pub') }}"
+    state: "present"
+
 - name: "Set SSHD settings"
   template:
     src: "sshd_config.j2"
