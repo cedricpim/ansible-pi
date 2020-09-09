@@ -1,8 +1,10 @@
 ---
-- hosts: vagrant
+- hosts: production
+  become: yes
 
-  vars:
-    user: "vagrant"
+  vars_files:
+    - "../vaulted_vars/system.yml"
+    - "../group_vars/system.yml"
 
   pre_tasks:
     - name: "Update current packages"
