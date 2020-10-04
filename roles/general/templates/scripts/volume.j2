@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -o pipefail
+IFS=$'\n\t'
+
+{{ ansible_managed | comment }}
+
+### volume — utility script to control volume of output
+###
+### Usage:
+###   volume <percentage>
+###
+### Options:
+###   <percentage>    Percentage to raise/lower volume
+
+amixer set HDMI -- $[$(amixer get HDMI|grep -o [0-9]*%|sed 's/%//')$1]%

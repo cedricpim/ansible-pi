@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -o pipefail
+IFS=$'\n\t'
+
+{{ ansible_managed | comment }}
+
+### svlc — utility script to play a file in vlc with subtitles
+###
+### Usage:
+###   svlc
+
+videotitles="$HOME/Videos/*.mkv"
+printf '%s\n' $videotitles
+
+echo -n "Select the video to play: "
+read line
+videotitle=$(printf '%s\n' $videotitles | head -n ${line:-0} | tail -n 1)
+
+
+if [[ -z $videotitle ]]; then
+  echo "No video picked"
+  exit 1
+fi
+
+
+subtitles="$HOME/Videos/*.srt"
+printf '%s\n' $subtitles
+
+echo -n "Select the subtitle to use: "
+read line
+subtitle=$(printf '%s\n' $subtitles | head -n ${line:-0} | tail -n 1)
+
+if [[ -n "$subtitle" ]]; then
+  cvlc --fullscreen --sub-file $subtitle $videotitle &
+else
+  cvlc --fullscreen --sub-language English $videotitle &
+fi

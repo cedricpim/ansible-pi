@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+set -o pipefail
+IFS=$'\n\t'
+
+{{ ansible_managed | comment }}
+
+### shelp — utility script to display comments of a script file as help.
+###
+### Usage:
+###   shelp <filepath>
+###
+### Options:
+###   <filepath>    File path to the script being parsed
+
+if [[ -n "$1" ]]; then
+  filepath=`command -v $1`
+
+  if [[ -n "$filepath" ]]; then
+    sed -rn 's/^### ?//;T;p' "$filepath"
+  else
+    which $1
+  fi
+else
+  shelp $0
+fi
