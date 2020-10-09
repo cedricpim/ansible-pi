@@ -1,2 +1,4 @@
 ---
 scripts_directory: "/usr/local/bin"
+
+systemd_directory: "/etc/systemd/system"

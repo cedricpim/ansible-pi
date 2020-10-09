@@ -28,8 +28,4 @@
   loop_control:
     loop_var: "script"
 
-- name: "Install utilities"
-  apt:
-    name:
-      - "cec-utils"
-      - "xscreensaver"
+- import_tasks: "media.yml"

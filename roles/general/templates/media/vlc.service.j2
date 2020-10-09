@@ -1,0 +1,14 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=VideoOnLAN Service
+After=network.target
+
+[Service]
+Type=forking
+User={{ media_vlc_user }}
+ExecStart=/usr/bin/vlc --daemon --syslog -I http --http-port {{ media_vlc_port }} --http-password {{ media_vlc_password }}
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

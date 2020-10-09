@@ -2,3 +2,7 @@
 general_user: "{{ vault_general_user }}"
 general_password: "{{ vault_general_password }}"
 general_sshd_ports: "{{ vault_general_sshd_ports }}"
+
+media_vlc_user: "{{ vault_media_vlc_user }}"
+media_vlc_port: "{{ vault_media_vlc_port }}"
+media_vlc_password: "{{ vault_media_vlc_password }}"

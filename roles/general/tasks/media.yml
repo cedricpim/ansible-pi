@@ -1,0 +1,48 @@
+---
+- name: "Create folder for media"
+  file:
+    path: "{{ media_folder }}"
+    mode: "0755"
+    state: "directory"
+  become: yes
+  become_user: "pi"
+
+- name: "Install utilities"
+  apt:
+    name: "cec-utils"
+
+- name: "Install VLC"
+  apt:
+    name: "vlc"
+
+- name: "Ensure group {{ media_vlc_user }} exists"
+  group:
+    name: "{{ media_vlc_user }}"
+    state: "present"
+
+- name: "Add the user for VLC"
+  user:
+    comment: "VLC daemon"
+    name: "{{ media_vlc_user }}"
+    group: "{{ media_vlc_user }}"
+    groups: "audio"
+    append: yes
+    home: "/"
+    shell: "/usr/bin/nologin"
+    password: "!"
+    system: yes
+    create_home: no
+
+- name: "Copy VLC systemd"
+  template:
+    src: "media/vlc.service.j2"
+    dest: "{{ systemd_directory }}/vlc.service"
+    mode: "0644"
+  notify: "Restart VLC"
+
+- name: "Start/Enable VLC"
+  systemd:
+    name: "vlc"
+    state: "started"
+    enabled: yes
+    daemon_reload: yes

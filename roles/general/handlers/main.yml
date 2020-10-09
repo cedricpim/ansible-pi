@@ -3,3 +3,8 @@
   systemd:
     name: "ssh"
     state: "reloaded"
+
+- name: "Restart VLC"
+  systemd:
+    name: "vlc"
+    state: "restarted"

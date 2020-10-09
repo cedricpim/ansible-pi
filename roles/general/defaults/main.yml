@@ -1,0 +1,6 @@
+---
+media_folder: "/home/pi/Media"
+
+media_vlc_user: "vlcd"
+media_vlc_port: "8080"
+media_vlc_password: "password"
