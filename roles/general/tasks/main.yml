@@ -25,15 +25,11 @@
     tasks_from: "scripts"
   with_items:
     - "shelp"
-    - "svlc"
-    - "player-control"
-    - "volume"
   loop_control:
     loop_var: "script"
 
 - name: "Install utilities"
   apt:
     name:
-      - "omxplayer"
       - "cec-utils"
       - "xscreensaver"
