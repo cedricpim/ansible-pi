@@ -6,6 +6,7 @@
     create_home: yes
     shell: "/bin/bash"
     state: "present"
+  become: yes
 
 - name: "Set authorized key from local user"
   authorized_key:
@@ -19,6 +20,7 @@
     dest: "/etc/ssh/sshd_config"
     mode: "0644"
   notify: "Reload SSH"
+  become: yes
 
 - include_role:
     name: "general"
@@ -33,5 +35,6 @@
     name:
       - "ntfs-3g"
       - "ansible"
+  become: yes
 
 - import_tasks: "media.yml"

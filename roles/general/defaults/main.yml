@@ -1,5 +1,5 @@
 ---
-media_folder: "/home/pi/Media"
+media_folder: "~/Media"
 
 media_vlc_user: "vlcd"
 media_vlc_port: "8080"

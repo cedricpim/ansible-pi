@@ -1,6 +1,5 @@
 ---
 - hosts: production
-  become: yes
 
   vars_files:
     - "../vaulted_vars/system.yml"
@@ -13,6 +12,7 @@
         update_cache: yes
         force_apt_get: yes
       tags: "always"
+      become: yes
 
   roles:
     - { role: "general", tags: "general" }

@@ -4,21 +4,22 @@
     path: "{{ media_folder }}"
     mode: "0755"
     state: "directory"
-  become: yes
-  become_user: "pi"
 
 - name: "Install utilities"
   apt:
     name: "cec-utils"
+  become: yes
 
 - name: "Install VLC"
   apt:
     name: "vlc"
+  become: yes
 
 - name: "Ensure group {{ media_vlc_user }} exists"
   group:
     name: "{{ media_vlc_user }}"
     state: "present"
+  become: yes
 
 - name: "Add the user for VLC"
   user:
@@ -32,6 +33,7 @@
     password: "!"
     system: yes
     create_home: no
+  become: yes
 
 - name: "Copy VLC systemd"
   template:
@@ -39,6 +41,7 @@
     dest: "{{ systemd_directory }}/vlc.service"
     mode: "0644"
   notify: "Restart VLC"
+  become: yes
 
 - name: "Start/Enable VLC"
   systemd:
@@ -46,3 +49,4 @@
     state: "started"
     enabled: yes
     daemon_reload: yes
+  become: yes
