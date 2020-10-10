@@ -1,0 +1,3 @@
+---
+neovim_spell_url: "ftp://ftp.vim.org/pub/vim/runtime/spell"
+nvim_config_repo: "git@github.com:cedricpim/nvim.config.git"
