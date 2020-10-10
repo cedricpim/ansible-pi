@@ -28,4 +28,10 @@
   loop_control:
     loop_var: "script"
 
+- name: "Install utilities"
+  apt:
+    name:
+      - "ntfs-3g"
+      - "ansible"
+
 - import_tasks: "media.yml"
