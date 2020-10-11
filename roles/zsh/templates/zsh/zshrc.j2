@@ -1,0 +1,68 @@
+{{ ansible_managed | comment }}
+
+#
+# Executes commands at the start of an interactive session.
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+autoload -U colors && colors
+autoload zmv
+autoload -Uz compinit && compinit
+autoload -Uz run-help
+
+# save path on cd
+function cd {
+  builtin cd "$@"
+  pwd >| ~/.zsh/last_dir
+}
+
+# restore last saved path
+if [ -f ~/.zsh/last_dir ]; then cd "`cat ~/.zsh/last_dir`"; fi
+
+# Source zsh config files
+for file in `/usr/bin/find -L ~/.zsh -maxdepth 1 -type f`; do
+  [ -r $file ] && [ -f $file ] && [ "$(basename -- $file)" != "last_dir" ] && source $file
+done
+
+# Ensure path arrays do not contain duplicates.
+typeset -gU cdpath fpath mailpath path
+
+#
+# Temporary Files
+#
+if [[ ! -d "$TMPDIR" ]]; then
+  export TMPDIR="/tmp/$USER"
+  mkdir -p -m 700 "$TMPDIR"
+fi
+
+TMPPREFIX="${TMPDIR%/}/zsh"
+if [[ ! -d "$TMPPREFIX" ]]; then
+  mkdir -p "$TMPPREFIX"
+fi
+
+# New colors for ls
+if [ `command -v dircolors` ]; then
+  eval $(dircolors -b $HOME/.dircolors)
+fi
+
+if [ `command -v gem` ] && [ `command -v ruby` ]; then
+  export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+fi
+
+if [ -d "/usr/share/zsh/plugins/zsh-autosuggestions" ]; then
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+[ -f ~/.config/fzf/shell/key-bindings.zsh ] && source ~/.config/fzf/shell/key-bindings.zsh
+[ -f ~/.config/fzf/shell/completion.zsh ] && source ~/.config/fzf/shell/completion.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
+
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh

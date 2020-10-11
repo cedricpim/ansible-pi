@@ -1,0 +1,20 @@
+{{ ansible_managed | comment }}
+
+#
+# Executes commands at login post-zshrc.
+#
+
+# Execute code that does not affect the current session in the background.
+{
+  # Compile the completion dump to increase startup speed.
+  zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+  if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+    zcompile "$zcompdump"
+  fi
+} &!
+
+# Display system information on login
+if [ `command -v neofetch` ]; then neofetch; fi
+
+# Start always on tmux existing session
+if [ -z "$TMUX" ] && [ "$DESKTOP_SESSION" == "gnome" ]; then tmux attach > /dev/null 2>&1; fi

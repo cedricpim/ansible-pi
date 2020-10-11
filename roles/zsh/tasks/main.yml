@@ -1,0 +1,36 @@
+---
+- name: "Add release PGP keys for zsh-completions"
+  apt_key:
+    url: "{{ zsh_completions_key }}"
+    state: "present"
+  become: yes
+
+- name: "Add source for zsh-completions"
+  apt_repository:
+    repo: "{{ zsh_completions_source }}"
+    state: "present"
+  become: yes
+
+- name: "Install zsh"
+  apt:
+    name:
+      - "zsh"
+      - "zsh-autosuggestions"
+      - "zsh-completions"
+    state: "present"
+  become: yes
+
+- name: "Change default shell to zsh"
+  user:
+    name: "{{ user }}"
+    shell: "/usr/bin/zsh"
+  become: yes
+
+- name: "Copy dircolors configuration file"
+  template:
+    src: "dircolors.j2"
+    dest: "~/.dircolors"
+    mode: "0600"
+
+- import_tasks: "configurations.yml"
+- import_tasks: "ripgrep.yml"

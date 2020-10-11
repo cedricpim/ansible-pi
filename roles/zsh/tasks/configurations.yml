@@ -1,0 +1,48 @@
+---
+- name: "Ensure zprezto is cloned and up-to-date"
+  git:
+    repo: "{{ zprezto_repo }}"
+    dest: "{{ zprezto_dest }}"
+    clone: yes
+    update: yes
+    recursive: yes
+  register: cloned_zprezto
+
+- name: "Pull zprezto submodules"
+  command: "git submodule update --init --recursive"
+  args:
+    chdir: "{{ zprezto_dest }}"
+  when: cloned_zprezto is defined and cloned_zprezto.submodules_changed is defined
+
+- name: "Copy zprezto configuration file"
+  template:
+    src: "zprezto/zpreztorc.j2"
+    dest: "~/.zpreztorc"
+    mode: "0600"
+
+- name: "Create folder for zsh configuration files"
+  file:
+    path: "{{ zsh_directory }}"
+    state: "directory"
+
+- name: "Copy main zsh configuration files"
+  template:
+    src: "zsh/{{ item }}.j2"
+    dest: "~/.{{ item }}"
+    mode: "0600"
+  with_items:
+    - "zlogin"
+    - "zshenv"
+    - "zshrc"
+
+- name: "Copy the remaining zsh configuration files"
+  template:
+    src: "zsh/{{ item }}.j2"
+    dest: "{{ zsh_directory }}/{{ item }}"
+    mode: "0600"
+  with_items:
+    - "aliases"
+    - "exports"
+    - "functions"
+    - "zsettings"
+    - "zstyles"

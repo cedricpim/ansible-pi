@@ -1,0 +1,12 @@
+---
+- name: "Install ripgrep"
+  apt:
+    name: "ripgrep"
+    state: "present"
+  become: yes
+
+- name: "Setup ripgrep autocomplete for zsh"
+  get_url:
+    url: "{{ ripgrep_autocomplete_url }}"
+    dest: "{{ ripgrep_autocomplete_dest }}"
+  become: yes

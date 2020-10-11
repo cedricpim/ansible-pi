@@ -2,3 +2,11 @@
 scripts_directory: "/usr/local/bin"
 
 systemd_directory: "/etc/systemd/system"
+
+operative_system: "Raspbian"
+operative_system_version: "10"
+
+colorscheme_name: "vim-material"
+background_color: "dark"
+colorscheme_style: "oceanic"
+wiki: "~/a.md"

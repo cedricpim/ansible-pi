@@ -1,0 +1,121 @@
+{{ ansible_managed | comment }}
+
+# Override zprezto
+alias rm="nocorrect rm -I"
+alias gt="git"
+
+# Personal aliases
+alias travel="ikhal -a travel"
+
+# Ruby
+alias be="bundle exec"
+alias rs="be rails s -b 0.0.0.0"
+alias rc="be rails c"
+alias rsp="be rspec"
+alias rrsp="be rescue rspec"
+alias sk="be sidekiq -C config/sidekiq.yml"
+alias cucumber="be cucumber"
+alias rake="be rake"
+alias rails="be rails"
+
+## Application
+alias vim="nvim"
+alias feh="feh -F"
+alias sudo="sudo " # Enable aliases to be sudo’ed
+
+## Docker aliases
+alias dlc="docker ps -l -q" # return the last-run container ID
+alias drm="docker ps -a | grep Exited | cut -d ' ' -f 1 | xargs docker rm" # remove all stopped containers
+alias drun="docker run -ti"
+
+# Tmux
+alias tma="tmux attach"
+alias tml="tmux list-sessions"
+alias tmk="tmux kill-session -t"
+
+# Override default applications
+alias ping="prettyping --nolegend"
+alias find="fd"
+alias help="tldr"
+alias cat="bat --theme=GitHub"
+alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+
+# Easier navigation: .., ..., ...., ....., ~ and -
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
+
+# Shortcuts
+alias h="history"
+alias j="jobs"
+
+# Always use color output for `ls` and group directories
+alias ls="ls --color=auto --group-directories-first"
+
+# List all files colorized in long format
+alias l="ls -l"
+
+# List all files colorized in long format, including dot files
+alias la="ls -la"
+
+# List only directories
+alias lsd="ls -lF | grep '^d'"
+
+# Stopwatch
+alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+
+# View HTTP traffic
+alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+
+# Canonical hex dump; some systems have this symlinked
+command -v hd > /dev/null || alias hd="hexdump -C"
+
+# Trim new lines and copy to clipboard
+alias c="tr -d '\n' | xsel"
+
+# URL-encode strings
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+
+# Intuitive map function
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+alias map="xargs -n1"
+
+# Update pip
+alias pip-update="pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U --user"
+
+alias reload!="source ~/.zshrc"
+
+# Weather
+function weather() {
+  if [ -n "$1" ]; then place="$1"; else place=""; fi
+
+  curl http://wttr.in/$place
+}
+
+# Yay
+function remove-orphanaged() {
+  yay -Rns $(yay -Qtdq)
+}
+
+# Log in as user
+function loggo() {
+  cd /home
+  sudo -u $1 zsh
+}
+
+# Use pager with ripgrep
+function rg() {
+  if [ -t 1 ]; then
+      command rg -p -L --hidden --sort-files "$@" | less -RMFXK
+  else
+      command rg "$@"
+  fi
+}
+
+# Use MyTraceRoute to check internet conditions
+alias internet-report="sudo mtr 8.8.8.8"

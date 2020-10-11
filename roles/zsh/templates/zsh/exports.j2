@@ -1,0 +1,49 @@
+{{ ansible_managed | comment }}
+
+# Editors
+export VISUAL='nvim'
+export EDITOR='nvim'
+export PAGER='less'
+
+# Avoid issues with terminal and ncurses: https://github.com/thestinger/termite/issues/545
+export TERM=xterm-color
+
+# Larger bash history (allow 32³ entries default is 500)
+export HISTSIZE=32768
+export HISTFILESIZE=$HISTSIZE
+export HISTCONTROL=ignoredups
+# Make some commands not show up in history
+export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+# Good dates on ls
+export TIME_STYLE=long-iso
+
+# Highlight section titles in manual pages
+export LESS_TERMCAP_md="${yellow}"
+
+# Don't clear the screen after quitting a manual page
+export MANPAGER="less -X"
+
+# Set the default Less options.
+# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+# Remove -X and -F (exit if the content fits on one screen) to enable it.
+export LESS='-F -g -i -M -R -S -w -X -z-4'
+
+# Set the Less input preprocessor.
+if [ ! -z "$ZSH_VERSION" ] && (( $+commands[lesspipe.sh] )); then
+  export LESSOPEN='| /usr/bin/env lesspipe.sh %s 2>&-'
+fi
+
+# Use sane defaults for FZF
+export FZF_DEFAULT_COMMAND='rg -uu -L -g "" -g '!.git/' --files --smart-case'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Remove Lag when changing ZSH to normal mode
+export KEYTIMEOUT=1
+
+# Location of wiki for vim
+export VIM_WIKI={{ wiki }}
+
+# Colorscheme related variables
+export COLORSCHEME_NAME={{ colorscheme_name }}
+export BACKGROUND_COLOR={{ background_color }}
+export COLORSCHEME_STYLE={{ colorscheme_style }}

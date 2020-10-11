@@ -1,0 +1,7 @@
+---
+zprezto_repo: "https://github.com/sorin-ionescu/prezto.git"
+
+ripgrep_autocomplete_url: "https://raw.githubusercontent.com/BurntSushi/ripgrep/master/complete/_rg"
+
+zsh_completions_key: "https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/{{ operative_system }}_{{ operative_system_version }}/Release.key"
+zsh_completions_source: "deb http://download.opensuse.org/repositories/shells:/zsh-users:/zsh-completions/{{ operative_system }}_{{ operative_system_version }}/ /"

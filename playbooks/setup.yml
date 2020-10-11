@@ -1,6 +1,9 @@
 ---
 - hosts: production
 
+  vars:
+    user: "{{ lookup('env', 'USER') }}"
+
   vars_files:
     - "../vaulted_vars/system.yml"
     - "../group_vars/system.yml"
@@ -19,3 +22,4 @@
     - { role: "media", tags: "media" }
     - { role: "editor", tags: "editor" }
     - { role: "torrents", tags: "torrents" }
+    - { role: "zsh", tags: "zsh" }
