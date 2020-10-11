@@ -16,4 +16,5 @@
 
   roles:
     - { role: "general", tags: "general" }
+    - { role: "media", tags: "media" }
     - { role: "editor", tags: "editor" }

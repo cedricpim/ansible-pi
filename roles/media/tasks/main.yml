@@ -26,7 +26,9 @@
     comment: "VLC daemon"
     name: "{{ media_vlc_user }}"
     group: "{{ media_vlc_user }}"
-    groups: "audio"
+    groups:
+      - "audio"
+      - "video"
     append: yes
     home: "/"
     shell: "/usr/bin/nologin"
@@ -37,7 +39,7 @@
 
 - name: "Copy VLC systemd"
   template:
-    src: "media/vlc.service.j2"
+    src: "vlc.service.j2"
     dest: "{{ systemd_directory }}/vlc.service"
     mode: "0644"
   notify: "Restart VLC"

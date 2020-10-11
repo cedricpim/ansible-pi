@@ -4,9 +4,3 @@
     name: "ssh"
     state: "reloaded"
   become: yes
-
-- name: "Restart VLC"
-  systemd:
-    name: "vlc"
-    state: "restarted"
-  become: yes

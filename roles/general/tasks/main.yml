@@ -38,5 +38,3 @@
       - "ntfs-3g"
       - "ansible"
   become: yes
-
-- import_tasks: "media.yml"

@@ -1,0 +1,6 @@
+---
+- name: "Restart VLC"
+  systemd:
+    name: "vlc"
+    state: "restarted"
+  become: yes
