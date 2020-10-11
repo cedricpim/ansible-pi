@@ -7,6 +7,35 @@
     state: "present"
   become: yes
 
+- name: "Ensure group {{ transmission_shared_group }} exists"
+  group:
+    name: "{{ transmission_shared_group }}"
+    state: "present"
+  become: yes
+
+- name: "Add group {{ transmission_shared_group }} to {{ transmission_user }}"
+  user:
+    name: "{{ transmission_user }}"
+    groups: "{{ transmission_shared_group }}"
+    append: yes
+  become: yes
+
+- name: "Add group {{ transmission_shared_group }} to {{ transmission_download_user }}"
+  user:
+    name: "{{ transmission_download_user }}"
+    groups: "{{ transmission_shared_group }}"
+    append: yes
+  become: yes
+
+- name: "Create folder for downloaded files"
+  file:
+    path: "{{ transmission_download_directory | regex_replace('~', ansible_env.HOME)}}"
+    state: "directory"
+    owner: "{{ transmission_download_user }}"
+    group: "{{ transmission_shared_group }}"
+    mode: "775"
+  become: yes
+
 - name: "Create folder for transmission settings"
   file:
     path: "{{ transmission_directory }}"

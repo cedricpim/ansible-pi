@@ -6,3 +6,6 @@ general_sshd_ports: "{{ vault_general_sshd_ports }}"
 media_vlc_user: "{{ vault_media_vlc_user }}"
 media_vlc_port: "{{ vault_media_vlc_port }}"
 media_vlc_password: "{{ vault_media_vlc_password }}"
+
+transmission_shared_group: "{{ vault_transmission_shared_group }}"
+transmission_download_user: "{{ vault_transmission_download_user }}"

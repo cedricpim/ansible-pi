@@ -3,6 +3,8 @@ sysctl_rmem_max: 4194304
 sysctl_wmem_max: 1048576
 
 transmission_user: "debian-transmission"
+transmission_shared_group: "staff"
+transmission_download_user: "pi"
 
 transmission_directory: "/var/lib/transmission-daemon"
 transmission_watch_directory: "~/Downloads"
