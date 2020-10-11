@@ -1,0 +1,25 @@
+---
+- name: "Rebuild sysctl"
+  command: "sysctl -p"
+  become: yes
+
+- name: "Stop transmission"
+  systemd:
+    name: "transmission-daemon"
+    state: "stopped"
+  become: yes
+
+- name: "Restart transmission"
+  systemd:
+    name: "transmission-daemon"
+    state: "restarted"
+  become: yes
+
+- name: "Load transmission configuration"
+  template:
+    src: "transmission/settings.json.j2"
+    dest: "{{ transmission_directory }}/settings.json"
+    owner: "{{ transmission_user }}"
+    group: "{{ transmission_user }}"
+    mode: "0600"
+  become: yes

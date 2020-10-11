@@ -1,0 +1,68 @@
+---
+- name: "Install transmission"
+  apt:
+    name:
+      - "transmission-cli"
+      - "transmission-daemon"
+    state: "present"
+  become: yes
+
+- name: "Create folder for transmission settings"
+  file:
+    path: "{{ transmission_directory }}"
+    state: "directory"
+    owner: "{{ transmission_user }}"
+    group: "{{ transmission_user }}"
+  with_items:
+    - "{{ transmission_directory }}"
+    - "{{ transmission_directory }}/.config/transmission-daemon"
+  become: yes
+
+- name: "Copy transmission script"
+  template:
+    src: "transmission/complete.sh.j2"
+    dest: "{{ transmission_directory }}/complete.sh"
+    owner: "{{ transmission_user }}"
+    group: "{{ transmission_user }}"
+    mode: "0700"
+  become: yes
+
+- name: "Copy transmission settings"
+  template:
+    src: "transmission/settings.json.j2"
+    dest: "{{ transmission_directory }}/.config/transmission-daemon/settings.json"
+    owner: "{{ transmission_user }}"
+    group: "{{ transmission_user }}"
+    mode: "0600"
+  become: yes
+  notify:
+    - "Stop transmission"
+    - "Load transmission configuration"
+    - "Restart transmission"
+
+- name: "Copy sysctl configuration to /etc/sysctl.conf"
+  template:
+    src: "sysctl.conf.j2"
+    dest: "/etc/sysctl.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  become: yes
+  notify:
+    - "Rebuild sysctl"
+    - "Restart transmission"
+
+- name: "Start and enable service for transmission"
+  systemd:
+    name: "transmission-daemon"
+    state: "started"
+    enabled: yes
+  become: yes
+
+- include_role:
+    name: "general"
+    tasks_from: "scripts"
+  with_items:
+    - "magnet"
+  loop_control:
+    loop_var: "script"

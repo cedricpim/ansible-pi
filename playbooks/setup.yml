@@ -18,3 +18,4 @@
     - { role: "general", tags: "general" }
     - { role: "media", tags: "media" }
     - { role: "editor", tags: "editor" }
+    - { role: "torrents", tags: "torrents" }
