@@ -9,6 +9,6 @@ operative_system_version: "10"
 colorscheme_name: "vim-material"
 background_color: "dark"
 colorscheme_style: "oceanic"
-wiki: "~/a.md"
+wiki: "~/Sync/general/files/wiki"
 
 default_browser: "firefox"

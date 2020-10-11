@@ -24,3 +24,4 @@
     - { role: "torrents", tags: "torrents" }
     - { role: "zsh", tags: "zsh" }
     - { role: "shell", tags: "shell" }
+    - { role: "sync", tags: "sync" }
