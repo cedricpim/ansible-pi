@@ -37,4 +37,5 @@
     name:
       - "ntfs-3g"
       - "ansible"
+      - "firefox-esr"
   become: yes
