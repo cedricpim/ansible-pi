@@ -4,3 +4,9 @@
     name: "vlc"
     state: "restarted"
   become: yes
+
+- name: "Restart spotifyd"
+  systemd:
+    name: "spotifyd"
+    state: "restarted"
+  become: yes

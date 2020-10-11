@@ -29,7 +29,7 @@
 
 - name: "Create folder for downloaded files"
   file:
-    path: "{{ transmission_download_directory | regex_replace('~', ansible_env.HOME)}}"
+    path: "{{ transmission_download_directory | regex_replace('~', ansible_env.HOME) }}"
     state: "directory"
     owner: "{{ transmission_download_user }}"
     group: "{{ transmission_shared_group }}"

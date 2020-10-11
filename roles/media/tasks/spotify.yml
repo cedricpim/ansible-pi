@@ -1,0 +1,74 @@
+---
+- name: "Get currently installed version"
+  command: "spotifyd --version"
+  failed_when: no
+  changed_when: no
+  register: spotifyd_installed_version
+
+- name: "Download and install spotifyd"
+  block:
+    - tempfile: suffix="spotifyd" state="directory"
+      register: tempdir
+    - get_url: url="{{ media_spotifyd_url }}.tar.gz" dest="{{ tempdir.path }}" checksum="sha512:{{ media_spotifyd_url }}.sha512"
+    - unarchive: src="{{ media_spotifyd_url }}.tar.gz" dest="{{ tempdir.path }}" remote_src=yes
+    - command: "mv {{ tempdir.path }}/spotifyd {{ media_spotifyd_destination }}/spotifyd"
+    - file: path="{{ media_spotifyd_destination }}/spotifyd" owner="root" group="root"
+  always:
+    - file: path="{{ tempdir.path }}" state="absent"
+  when: spotifyd_installed_version.stdout is not defined or spotifyd_installed_version.stdout != media_spotifyd_version_output
+  become: yes
+
+- name: "Ensure group {{ media_spotifyd_user }} exists"
+  group:
+    name: "{{ media_spotifyd_user }}"
+    state: "present"
+  become: yes
+
+- name: "Add the user for spotifyd"
+  user:
+    comment: "Spotifyd daemon"
+    name: "{{ media_spotifyd_user }}"
+    group: "{{ media_spotifyd_user }}"
+    groups:
+      - "audio"
+    append: yes
+    home: "/"
+    shell: "/usr/bin/nologin"
+    password: "!"
+    system: yes
+    create_home: no
+  become: yes
+
+- name: "Create folder for spotifyd configuration"
+  file:
+    path: "{{ media_spotifyd_configuration }}"
+    state: "directory"
+    owner: "{{ media_spotifyd_user }}"
+    group: "{{ media_spotifyd_user }}"
+    mode: "0755"
+  become: yes
+
+- name: "Copy spotifyd configuration"
+  template:
+    src: "spotifyd.conf.j2"
+    dest: "{{ media_spotifyd_configuration }}/spotifyd.conf"
+    owner: "{{ media_spotifyd_user }}"
+    group: "{{ media_spotifyd_user }}"
+    mode: "0644"
+  become: yes
+
+- name: "Copy spotifyd systemd"
+  template:
+    src: "spotifyd.service.j2"
+    dest: "{{ systemd_directory }}/spotifyd.service"
+    mode: "0644"
+  notify: "Restart spotifyd"
+  become: yes
+
+- name: "Start/Enable spotifyd"
+  systemd:
+    name: "spotifyd"
+    state: "started"
+    enabled: yes
+    daemon_reload: yes
+  become: yes

@@ -4,3 +4,16 @@ media_folder: "~/Media"
 media_vlc_user: "vlcd"
 media_vlc_port: "8080"
 media_vlc_password: "password"
+
+media_spotify_username: "username"
+media_spotify_password: "password"
+media_spotifyd_device_name: "RaspberryPI"
+media_spotifyd_device_type: "type"
+
+media_spotifyd_user: "spotifyd"
+media_spotifyd_configuration: "/etc/spotifyd"
+
+media_spotifyd_version: "0.2.24"
+media_spotifyd_filename: "spotifyd-linux-armhf-full"
+media_spotifyd_url: "https://github.com/Spotifyd/spotifyd/releases/download/v{{ media_spotifyd_version }}/{{ media_spotifyd_filename }}"
+media_spotifyd_destination: "/usr/local/bin"
