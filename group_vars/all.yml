@@ -10,3 +10,5 @@ colorscheme_name: "vim-material"
 background_color: "dark"
 colorscheme_style: "oceanic"
 wiki: "~/a.md"
+
+default_browser: "firefox"

@@ -1,0 +1,122 @@
+{{ ansible_managed | comment }}
+
+[alias]
+  # Main aliases
+  rs = restore
+  sw = switch
+  st = status
+  s = status -s
+  rso = remote show origin
+  g = grep --break --heading --line-number
+  unadd = reset HEAD
+  cm = commit -S
+  pf = push --force-with-lease
+  p = push
+  diff = diff --ignore-space-change -w
+  show = show -w
+  tags = tag -l
+  branches = branch -a
+  remotes = remote -v
+  # View abbreviated SHA, description without graph of the latest 10 commits
+  l = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' -n 10 --abbrev-commit
+  # Fixup commit instead of full commit
+  fixup = "!f() { git cm --fixup $@; }; f"
+  # Squash commit instead of full commit
+  squash  = "!f() { git cm --squash $@; }; f"
+  # Ammend using previous message
+  ca = "!f() { git cm --amend --no-edit; }; f"
+  # Show the diff between the latest commit and the current state
+  d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+  # Switch to a branch, creating it if necessary
+  go = "!f() { git switch -c \"$1\" 2> /dev/null || git switch \"$1\"; }; f"
+  # Interactive rebase with the given number of latest commits
+  reb = "!f() { git rebase -i HEAD~$1; }; f"
+  # Rebase current branch with master
+  rebup = "!f() { git switch master; git pull; git switch -; git pull; git rebase master; }; f"
+  # Find branches containing commit
+  fb = "!f() { git branch -a --contains $1; }; f"
+  # Find tags containing commit
+  ft = "!f() { git describe --always --contains $1; }; f"
+  # Find commits by source code
+  fc = "!f() { git log -p --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+  # Find commits by commit message
+  fm = "!f() { git log -p --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+  # Remove branches that have already been merged with master a.k.a. ‘delete merged’
+  mop = "!f() { git switch master && git remote prune origin && git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D; }; f"
+  # Like mop but do not do any destructive action, printing the branches that would be deleted instead
+  dry-mop = "!f() { git remote prune origin && git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs -r0 -n1 echo; }; f"
+  # Run bundled rubocop on the files that have changes from current branch to master
+  cop = !git diff --name-only $(git merge-base master HEAD) --diff-filter=AM -- '*.rb' '*.rake' | grep -v schema.rb$ | xargs bundle exec rubocop
+  aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /' | sort
+  stash-all = stash save --include-untracked
+
+[apply]
+  # Detect whitespace errors when applying a patch
+  whitespace = fix
+
+[core]
+  autocrlf = input
+  excludesfile = ~/.gitignore
+  editor = nvim
+
+[color]
+  # Use colors in Git commands that are capable of colored output when
+  # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+  ui = auto
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold # line info
+  old = red # deletions
+  new = green # additions
+
+[color "status"]
+  added = green
+  changed = yellow
+  untracked = cyan
+
+[diff]
+  # Detect copies as well as renames
+  renames = copies
+  compactionHeuristic = true
+
+[grep]
+  extendRegexp = true
+  lineNumber = true
+
+[merge]
+  # Include summaries of merged commits in newly created merge commit messages
+  log = true
+  conflictstyle = diff3
+
+[push]
+  default = simple
+  recurseSubmodules = check
+
+[fetch]
+  prune = true
+
+[branch]
+  autosetuprebase = always
+
+[rebase]
+  autosquash = true
+  autoStash = true
+
+[pull]
+  rebase = merges
+
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
+
+[user]
+  name = {{ git_full_name }}
+  email = {{ git_email }}

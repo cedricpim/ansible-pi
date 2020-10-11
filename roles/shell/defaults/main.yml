@@ -1,0 +1,4 @@
+---
+htop_directory: "~/.config/htop"
+
+neofetch_directory: "~/.config/neofetch"

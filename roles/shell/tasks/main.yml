@@ -1,0 +1,48 @@
+---
+- name: "Install shell utilities"
+  apt:
+    name:
+      - "easy-rsa"
+      - "rsync"
+      - "xsel"
+      - "xdotool"
+      - "wmctrl"
+      - "ripgrep"
+      - "powerline"
+      - "cryptsetup"
+      - "lsof"
+      - "tldr"
+      - "jq"
+      - "ncdu"
+      - "tmux"
+      - "unzip"
+      - "time"
+      - "wget"
+      - "tig"
+      - "fzf"
+    state: "present"
+  become: yes
+
+- name: "Create folder for SSH"
+  file:
+    path: "~/.ssh"
+    state: "directory"
+
+- name: "Set SSH configuration"
+  template:
+    src: "ssh/config.j2"
+    dest: "~/.ssh/config"
+    mode: "0644"
+
+- include_role:
+    name: "zsh"
+    tasks_from: "scripts"
+  with_items:
+    - "shelp"
+  loop_control:
+    loop_var: "script"
+
+- import_tasks: "git.yml"
+- import_tasks: "htop.yml"
+- import_tasks: "urlview.yml"
+- import_tasks: "neofetch.yml"

@@ -9,3 +9,8 @@ media_vlc_password: "{{ vault_media_vlc_password }}"
 
 transmission_shared_group: "{{ vault_transmission_shared_group }}"
 transmission_download_user: "{{ vault_transmission_download_user }}"
+
+git_full_name: "{{ vault_git_full_name }}"
+git_email: "{{ vault_git_email }}"
+
+ssh_entries: "{{ vault_ssh_entries }}"

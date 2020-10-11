@@ -24,14 +24,6 @@
   notify: "Reload SSH"
   become: yes
 
-- include_role:
-    name: "zsh"
-    tasks_from: "scripts"
-  with_items:
-    - "shelp"
-  loop_control:
-    loop_var: "script"
-
 - name: "Install utilities"
   apt:
     name:

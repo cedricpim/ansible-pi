@@ -1,0 +1,11 @@
+---
+- name: "Install urlview"
+  apt:
+    name: "urlview"
+  become: yes
+
+- name: "Copy urlview configuration file"
+  template:
+    src: "urlview/urlview.j2"
+    dest: "~/.urlview"
+    mode: 0600
