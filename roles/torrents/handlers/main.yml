@@ -18,7 +18,7 @@
 - name: "Load transmission configuration"
   template:
     src: "transmission/settings.json.j2"
-    dest: "{{ transmission_directory }}/settings.json"
+    dest: "{{ transmission_directory }}/.config/transmission-daemon/settings.json"
     owner: "{{ transmission_user }}"
     group: "{{ transmission_user }}"
     mode: "0600"
