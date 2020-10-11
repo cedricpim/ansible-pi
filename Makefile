@@ -21,3 +21,6 @@ edit-vault:
 	$(eval VAULT = vaulted_vars/system.yml)
 	$(eval ANSIBLE_OPTS += --vault-password-file vaulted_vars/system.txt)
 	ansible-vault edit ${VAULT} ${ANSIBLE_OPTS}
+
+debug:
+	ansible production -m setup
