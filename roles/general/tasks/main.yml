@@ -9,10 +9,12 @@
   become: yes
 
 - name: "Set authorized key from local user"
-  authorized_key:
-    user: "{{ general_user }}"
-    key: "{{ lookup('file', '~/.ssh/raspberry_id_rsa.pub') }}"
-    state: "present"
+  block:
+    - stat: path="~/.ssh/raspberry_id_rsa.pub"
+      register: raspberry_pi_key
+    - authorized_key: user="{{ general_user }}" key="{{ lookup('file', '~/.ssh/raspberry_id_rsa.pub') }}" state="present"
+      when: raspberry_pi_key is defined and raspberry_pi_key.stat.islnk is defined
+  become: yes
 
 - name: "Set SSHD settings"
   template:
