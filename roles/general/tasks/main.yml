@@ -4,7 +4,6 @@
     name: "{{ general_user }}"
     password: "{{ general_password }}"
     create_home: yes
-    shell: "/bin/bash"
     state: "present"
   become: yes
 
