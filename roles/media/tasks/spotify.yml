@@ -15,7 +15,7 @@
     - file: path="{{ media_spotifyd_destination }}/spotifyd" owner="root" group="root"
   always:
     - file: path="{{ tempdir.path }}" state="absent"
-  when: spotifyd_installed_version.stdout is not defined or spotifyd_installed_version.stdout != media_spotifyd_version_output
+  when: spotifyd_installed_version.stdout is not defined or spotifyd_installed_version.stdout != spotifyd_version_output
   become: yes
 
 - name: "Ensure group {{ media_spotifyd_user }} exists"

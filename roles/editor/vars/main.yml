@@ -1,3 +1,6 @@
 ---
 neovim_spell_url: "ftp://ftp.vim.org/pub/vim/runtime/spell"
-nvim_config_repo: "https://github.com/cedricpim/nvim.config.git"
+neovim_config_repo: "https://github.com/cedricpim/nvim.config.git"
+
+neovim_repo: "https://github.com/neovim/neovim.git"
+neovim_version_output: "NVIM {{ editor_neovim_version }}"

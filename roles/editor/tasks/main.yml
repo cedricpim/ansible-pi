@@ -1,4 +1,6 @@
 ---
+- import_tasks: "neovim.yml"
+
 - name: "Install vim and dependencies"
   apt:
     name:
@@ -7,8 +9,6 @@
       - "ctags"
       - "ripgrep"
       - "libvterm-dev"
-      - "neovim"
-      - "python-neovim"
     state: "present"
   become: yes
 
@@ -20,20 +20,20 @@
     state: "latest"
     extra_args: "--user"
 
-- name: "Download Nvim configuration repository"
+- name: "Download neovim configuration repository"
   git:
-    repo: "{{ nvim_config_repo }}"
+    repo: "{{ neovim_config_repo }}"
     dest: "{{ neovim_directory }}"
     depth: 1
     clone: yes
     update: yes
 
-- name: "Create folder for Neovim dictionaries"
+- name: "Create folder for neovim dictionaries"
   file:
     path: "{{ neovim_spell_dest }}"
     state: "directory"
 
-- name: "Install Neovim dictionaries"
+- name: "Install neovim dictionaries"
   get_url:
     url: "{{ neovim_spell_url }}/{{ item }}"
     dest: "{{ neovim_spell_dest }}"
