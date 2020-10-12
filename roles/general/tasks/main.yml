@@ -30,4 +30,28 @@
       - "ntfs-3g"
       - "ansible"
       - "firefox-esr"
+      - "git"
   become: yes
+
+- name: "Generate SSH keys"
+  user:
+    name: "{{ item.owner }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_file: ".ssh/{{ item.service }}_id_{{ item.type }}"
+    ssh_key_type: "{{ item.type }}"
+    ssh_key_passphrase: "{{ item.passphrase }}"
+    ssh_key_comment: "{{ item.owner }} - {{ item.service }}"
+  with_items: "{{ general_ssh_keys }}"
+  no_log: yes
+  register: ssh_keys_created
+
+- name: "Setup Github with SSH key"
+  block:
+    - known_hosts: path="~/.ssh/known_hosts" name="github.com" key="{{ github_host }}"
+      with_items: "{{ ssh_keys_created.results | selectattr('ssh_key_file', 'search', 'github') | list }}"
+    - github_key: name="[Raspberry PI] {{ item.name }}" pubkey="{{ item.ssh_public_key }}" token="{{ general_github_access_token }}"
+      with_items: "{{ ssh_keys_created.results | selectattr('ssh_key_file', 'search', 'github') | list }}"
+      when: group_names[0] != "vagrant"
+  when: ssh_keys_created is defined
+  no_log: yes
