@@ -1,0 +1,20 @@
+---
+- name: "Install wireguard"
+  apt:
+    name: "wireguard"
+  become: yes
+
+- name: "Copy wireguard network configuration"
+  template:
+    src: "wg0.conf.j2"
+    dest: "{{ network_wireguard_configuration }}/wg0.conf"
+    mode: "0644"
+  notify: "Restart wireguard"
+  become: yes
+
+- name: "Start/Enable wireguard"
+  systemd:
+    name: "wg-quick@wg0.service"
+    state: "started"
+    enabled: yes
+  become: yes
