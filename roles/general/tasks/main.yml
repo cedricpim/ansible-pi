@@ -36,7 +36,6 @@
   user:
     name: "{{ item.owner }}"
     generate_ssh_key: yes
-    ssh_key_bits: 4096
     ssh_key_file: ".ssh/{{ item.service }}_id_{{ item.type }}"
     ssh_key_type: "{{ item.type }}"
     ssh_key_passphrase: "{{ item.passphrase }}"
