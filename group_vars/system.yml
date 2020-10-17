@@ -22,5 +22,6 @@ ssh_entries: "{{ vault_ssh_entries }}"
 
 syncthing_port: "{{ vault_syncthing_port }}"
 
+network_wireguard_public_key: "{{ vault_network_wireguard_public_key }}"
 network_wireguard_interface: "{{ vault_network_wireguard_interface }}"
 network_wireguard_peer: "{{ vault_network_wireguard_peer }}"
