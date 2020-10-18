@@ -5,6 +5,7 @@ Description=Spotifyd
 
 [Service]
 User={{ media_spotifyd_user }}
+ExecStartPre=-/bin/sleep 60
 ExecStart=/usr/bin/dbus-run-session /usr/local/bin/spotifyd --no-daemon --config-path {{ media_spotifyd_configuration }}/spotifyd.conf
 Restart=always
 
