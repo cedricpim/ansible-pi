@@ -4,35 +4,22 @@
     name: "vlc"
   become: yes
 
-- name: "Ensure group {{ media_vlc_user }} exists"
-  group:
-    name: "{{ media_vlc_user }}"
-    state: "present"
-  become: yes
-
-- name: "Add the user for VLC"
+- name: "Add relevant groups to VLC user"
   user:
-    comment: "VLC daemon"
     name: "{{ media_vlc_user }}"
-    group: "{{ media_vlc_user }}"
     groups:
       - "audio"
       - "video"
     append: yes
-    home: "/"
-    shell: "/usr/bin/nologin"
-    password: "!"
-    system: yes
-    create_home: no
+    state: "present"
   become: yes
 
 - name: "Copy VLC systemd"
   template:
     src: "vlc.service.j2"
-    dest: "{{ systemd_directory }}/vlc.service"
+    dest: "{{ user_systemd_directory }}/vlc.service"
     mode: "0644"
   notify: "Restart VLC"
-  become: yes
 
 - name: "Start/Enable VLC"
   systemd:
@@ -40,4 +27,4 @@
     state: "started"
     enabled: yes
     daemon_reload: yes
-  become: yes
+    scope: "user"

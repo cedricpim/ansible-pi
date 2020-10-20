@@ -1,7 +1,7 @@
 ---
 media_folder: "~/Media"
 
-media_vlc_user: "vlcd"
+media_vlc_user: "pi"
 media_vlc_port: "8080"
 media_vlc_password: "password"
 

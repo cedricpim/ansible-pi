@@ -3,7 +3,7 @@
   systemd:
     name: "vlc"
     state: "restarted"
-  become: yes
+    scope: "user"
 
 - name: "Restart spotifyd"
   systemd:
