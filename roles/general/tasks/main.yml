@@ -30,6 +30,7 @@
       - "ansible"
       - "firefox-esr"
       - "git"
+      - "borgbackup"
   become: yes
 
 - name: "Generate SSH keys"
