@@ -15,7 +15,7 @@
   systemd:
     name: "kodi"
     state: "stopped"
-    scope: "user"
+  become: yes
 
 - name: "Copy IPTV configuration settings"
   template:
@@ -35,4 +35,4 @@
   systemd:
     name: "kodi"
     state: "restarted"
-    scope: "user"
+  become: yes

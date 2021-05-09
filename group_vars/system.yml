@@ -1,5 +1,6 @@
 ---
 general_user: "{{ vault_general_user }}"
+general_group: "{{ vault_general_group }}"
 general_password: "{{ vault_general_password }}"
 general_sshd_ports: "{{ vault_general_sshd_ports }}"
 general_ssh_keys: "{{ vault_general_ssh_keys }}"

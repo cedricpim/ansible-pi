@@ -49,8 +49,9 @@
 - name: "Copy Kodi systemd"
   template:
     src: "kodi.service.j2"
-    dest: "{{ user_systemd_directory }}/kodi.service"
+    dest: "{{ systemd_directory }}/kodi.service"
     mode: "0644"
+  become: yes
   notify: "Restart Kodi"
 
 - name: "Start/Enable Kodi"
@@ -59,4 +60,4 @@
     state: "started"
     enabled: yes
     daemon_reload: yes
-    scope: "user"
+  become: yes
