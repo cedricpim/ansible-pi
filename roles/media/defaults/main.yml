@@ -17,3 +17,20 @@ media_spotifyd_version: "0.2.24"
 media_spotifyd_filename: "spotifyd-linux-armhf-full"
 media_spotifyd_url: "https://github.com/Spotifyd/spotifyd/releases/download/v{{ media_spotifyd_version }}/{{ media_spotifyd_filename }}"
 media_spotifyd_destination: "/usr/local/bin"
+
+media_kodi_user: "kodi"
+media_kodi_configuration: "~/.kodi/userdata"
+media_kodi_epg_url: "IPTV EPG URL"
+media_kodi_m3u_url: "IPTV M3U URL"
+media_kodi_options:
+  - { option: "addons.unknownsources", value: "true" }
+  - { option: "screensaver.mode", value: "screensaver.xbmc.builtin.black" }
+  - { option: "services.upnp", value: "true" }
+  - { option: "services.upnprenderer", value: "true" }
+  - { option: "services.upnpserver", value: "true" }
+  - { option: "services.webserver", value: "true" }
+  - { option: "services.webserverusername", value: "{{ media_kodi_webserver_username }}" }
+  - { option: "services.webserverpassword", value: "{{ media_kodi_webserver_password }}" }
+  - { option: "videolibrary.updateonstartup", value: "true" }
+media_kodi_webserver_username: "kodi"
+media_kodi_webserver_password: "123456789"

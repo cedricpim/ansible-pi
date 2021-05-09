@@ -10,3 +10,29 @@
     name: "spotifyd"
     state: "restarted"
   become: yes
+
+- name: "Stop Kodi"
+  systemd:
+    name: "kodi"
+    state: "stopped"
+    scope: "user"
+
+- name: "Copy IPTV configuration settings"
+  template:
+    src: "kodi/pvr.iptvsimple.xml.j2"
+    dest: "{{ media_kodi_configuration }}/addon_data/pvr.iptvsimple/settings.xml"
+    mode: "0644"
+
+- name: "Set Kodi GUI settings"
+  lineinfile:
+    path: "{{ media_kodi_configuration }}/guisettings.xml"
+    regexp: ".*\"{{ item.option }}\".*"
+    line: "    <setting id=\"{{ item.option }}\">{{ item.value }}</setting>"
+    state: present
+  with_items: "{{ media_kodi_options }}"
+
+- name: "Restart Kodi"
+  systemd:
+    name: "kodi"
+    state: "restarted"
+    scope: "user"

@@ -1,7 +1,7 @@
 ---
 scripts_directory: "/usr/local/bin"
 
-systemd_directory: "/etc/systemd/system"
+systemd_directory: "/lib/systemd/system"
 user_systemd_directory: "~/.config/systemd/user"
 
 operative_system: "Raspbian"

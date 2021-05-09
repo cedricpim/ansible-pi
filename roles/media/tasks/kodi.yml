@@ -1,0 +1,62 @@
+---
+- name: "Install Kodi"
+  apt:
+    name:
+      - "kodi"
+      - "kodi-peripheral-joystick"
+      - "kodi-pvr-iptvsimple"
+      - "kodi-inputstream-adaptive"
+      - "kodi-inputstream-rtmp"
+  become: yes
+
+- name: "Create folder for different Media"
+  file:
+    path: "{{ media_folder }}/{{ item }}"
+    mode: "0755"
+    state: "directory"
+  with_items:
+    - "TV Shows"
+    - "Movies"
+
+- name: "Create IPTV configuration folder"
+  file:
+    path: "{{ media_kodi_configuration }}/addon_data/pvr.iptvsimple"
+    mode: "0755"
+    state: "directory"
+
+- name: "Copy IPTV configuration settings"
+  template:
+    src: "kodi/pvr.iptvsimple.xml.j2"
+    dest: "{{ media_kodi_configuration }}/addon_data/pvr.iptvsimple/settings.xml"
+    mode: "0644"
+  notify:
+    - "Stop Kodi"
+    - "Copy IPTV configuration settings"
+    - "Restart Kodi"
+
+- name: "Set GUI settings"
+  lineinfile:
+    path: "{{ media_kodi_configuration }}/guisettings.xml"
+    regexp: ".*\"{{ item.option }}\".*"
+    line: "    <setting id=\"{{ item.option }}\">{{ item.value }}</setting>"
+    state: present
+  with_items: "{{ media_kodi_options }}"
+  notify:
+    - "Stop Kodi"
+    - "Set Kodi GUI settings"
+    - "Restart Kodi"
+
+- name: "Copy Kodi systemd"
+  template:
+    src: "kodi.service.j2"
+    dest: "{{ user_systemd_directory }}/kodi.service"
+    mode: "0644"
+  notify: "Restart Kodi"
+
+- name: "Start/Enable Kodi"
+  systemd:
+    name: "kodi"
+    state: "started"
+    enabled: yes
+    daemon_reload: yes
+    scope: "user"
