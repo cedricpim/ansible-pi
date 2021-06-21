@@ -23,6 +23,20 @@
   notify: "Reload SSH"
   become: yes
 
+- name: "Start and enable SSH"
+  systemd:
+    name: "ssh"
+    state: "restarted"
+    enabled: yes
+  become: yes
+
+- name: "Start and enable VNC"
+  systemd:
+    name: "vncserver-x11-serviced"
+    state: "restarted"
+    enabled: yes
+  become: yes
+
 - name: "Install utilities"
   apt:
     name:
