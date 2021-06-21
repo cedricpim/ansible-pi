@@ -18,6 +18,12 @@
     - "TV Shows"
     - "Movies"
 
+- name: "Start Kodi [create application folders]"
+  systemd:
+    name: "kodi"
+    state: "started"
+  become: yes
+
 - name: "Create IPTV configuration folder"
   file:
     path: "{{ media_kodi_configuration }}/addon_data/pvr.iptvsimple"
