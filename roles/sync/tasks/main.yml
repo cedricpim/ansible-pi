@@ -1,4 +1,6 @@
 ---
+# TODO: https://apt.syncthing.net/
+
 - name: "Install syncthing"
   apt:
     name: "syncthing"
