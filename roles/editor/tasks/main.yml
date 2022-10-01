@@ -1,14 +1,14 @@
 ---
-- import_tasks: "neovim.yml"
-
-- name: "Install vim and dependencies"
+- name: "Install vim, neovim and dependencies"
   apt:
     name:
       - "vim"
       - "xsel"
-      - "ctags"
+      - "exuberant-ctags"
       - "ripgrep"
       - "libvterm-dev"
+      - "neovim"
+      - "python3-neovim"
     state: "present"
   become: yes
 

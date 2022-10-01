@@ -4,5 +4,3 @@ neovim_spell_dest: '~/.local/share/nvim/site/spell'
 neovim_spell_dictionaries:
   - en.utf-8.spl
   - en.utf-8.sug
-
-editor_neovim_version: "v0.4.4"
