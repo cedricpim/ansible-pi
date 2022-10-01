@@ -1,10 +1,4 @@
 ---
-- name: "Restart VLC"
-  systemd:
-    name: "vlc"
-    state: "restarted"
-    scope: "user"
-
 - name: "Restart spotifyd"
   systemd:
     name: "spotifyd"

@@ -11,5 +11,4 @@
   become: yes
 
 - import_tasks: "kodi.yml"
-- import_tasks: "vlc.yml"
 - import_tasks: "spotify.yml"
