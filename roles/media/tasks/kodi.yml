@@ -18,8 +18,23 @@
     - "TV Shows"
     - "Movies"
 
+- name: "Create user systemd folder"
+  file:
+    path: "{{ user_systemd_directory }}"
+    mode: "0755"
+    state: "directory"
+
+- name: "Copy Kodi systemd"
+  template:
+    src: "kodi.service.j2"
+    dest: "{{ systemd_directory }}/kodi.service"
+    mode: "0644"
+  become: yes
+  notify: "Restart Kodi"
+
 - name: "Start Kodi [create application folders]"
   systemd:
+    daemon_reload: yes
     name: "kodi"
     state: "started"
   become: yes
@@ -51,14 +66,6 @@
     - "Stop Kodi"
     - "Set Kodi GUI settings"
     - "Restart Kodi"
-
-- name: "Copy Kodi systemd"
-  template:
-    src: "kodi.service.j2"
-    dest: "{{ systemd_directory }}/kodi.service"
-    mode: "0644"
-  become: yes
-  notify: "Restart Kodi"
 
 - name: "Start/Enable Kodi"
   systemd:
