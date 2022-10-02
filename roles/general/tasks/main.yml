@@ -7,6 +7,13 @@
     state: "present"
   become: yes
 
+- name: "Add boot configurations"
+  template:
+    src: "config.txt.j2"
+    dest: "/boot/config.txt"
+    mode: "0755"
+  become: yes
+
 - name: "Set authorized key from local user"
   block:
     - stat: path="~/.ssh/raspberry_id_rsa.pub"
