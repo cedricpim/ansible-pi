@@ -14,6 +14,12 @@
     mode: "0755"
   become: yes
 
+- name: "Copy Argon executable"
+  template:
+    src: "argon1.sh.j2"
+    dest: "~/argon1.sh"
+    mode: "0755"
+
 - name: "Set authorized key from local user"
   block:
     - stat: path="~/.ssh/raspberry_id_rsa.pub"
