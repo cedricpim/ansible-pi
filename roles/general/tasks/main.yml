@@ -14,11 +14,32 @@
     mode: "0755"
   become: yes
 
-- name: "Copy Argon executable"
-  template:
-    src: "argon1.sh.j2"
-    dest: "~/argon1.sh"
-    mode: "0755"
+- name: "Copy and install argon"
+  block:
+    - tempfile: suffix="argon" state="directory"
+      register: tempdir
+    - copy: src="argon1_0.2.1_all.deb" dest="{{ tempdir.path }}/argon1.deb" mode="0600"
+    - copy: src="lxplug-argon1_0.2.1_armhf.deb" dest="{{ tempdir.path }}/lxplug-argon1.deb" mode="0600"
+    - apt: deb="{{ tempdir.path }}/argon1.deb"
+    - apt: deb="{{ tempdir.path }}/lxplug-argon1.deb"
+  always:
+    - file: path="{{ tempdir.path }}" state="absent"
+  become: yes
+
+- name: "Disable fan until 55"
+  lineinfile:
+    path: "/etc/argonone.yaml"
+    regexp: '50:'
+    state: "absent"
+  become: yes
+
+- name: "Start and enable argon"
+  systemd:
+    name: "argonone"
+    state: "restarted"
+    enabled: yes
+    daemon_reload: yes
+  become: yes
 
 - name: "Set authorized key from local user"
   block:
