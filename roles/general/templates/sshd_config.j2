@@ -12,9 +12,12 @@
 # possible, but leave them commented.  Uncommented options override the
 # default value.
 
+Include /etc/ssh/sshd_config.d/*.conf
+
 {% for port in general_sshd_ports %}
 Port {{ port }}
 {% endfor %}
+#Port 22
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
@@ -57,7 +60,6 @@ Port {{ port }}
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
-#PasswordAuthentication yes
 PasswordAuthentication no
 #PermitEmptyPasswords no
 
