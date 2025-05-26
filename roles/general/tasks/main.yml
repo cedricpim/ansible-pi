@@ -64,13 +64,6 @@
     enabled: yes
   become: yes
 
-- name: "Start and enable VNC"
-  systemd:
-    name: "vncserver-x11-serviced"
-    state: "restarted"
-    enabled: yes
-  become: yes
-
 - name: "Install utilities"
   apt:
     name:
