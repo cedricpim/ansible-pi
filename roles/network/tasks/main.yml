@@ -1,7 +1,9 @@
 ---
 - name: "Install wireguard"
   apt:
-    name: "wireguard"
+    name:
+      - "resolvconf"
+      - "wireguard"
   become: yes
 
 - name: "Copy wireguard network configuration"
