@@ -7,13 +7,6 @@
     state: "present"
   become: yes
 
-- name: "Add boot configurations"
-  template:
-    src: "config.txt.j2"
-    dest: "/boot/config.txt"
-    mode: "0755"
-  become: yes
-
 - name: "Copy argon1.sh script"
   copy:
     src: "argon1.sh"
