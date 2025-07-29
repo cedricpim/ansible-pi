@@ -2,11 +2,8 @@
 - name: "Install Kodi"
   apt:
     name:
-      - "kodi"
-      - "kodi-peripheral-joystick"
-      - "kodi-pvr-iptvsimple"
-      - "kodi-inputstream-adaptive"
-      - "kodi-inputstream-rtmp"
+      - "kodi21"
+      - "kodi21-pvr-hts"
   become: yes
 
 - name: "Create folder for different Media"
@@ -39,20 +36,20 @@
     state: "started"
   become: yes
 
-- name: "Create IPTV configuration folder"
+- name: "Create remote keymap folder"
   file:
-    path: "{{ media_kodi_configuration }}/addon_data/pvr.iptvsimple"
+    path: "{{ media_kodi_configuration }}/userdata/keymaps"
     mode: "0755"
     state: "directory"
 
-- name: "Copy IPTV configuration settings"
+- name: "Copy remote keymaps configuration"
   template:
-    src: "kodi/pvr.iptvsimple.xml.j2"
-    dest: "{{ media_kodi_configuration }}/addon_data/pvr.iptvsimple/settings.xml"
+    src: "kodi/remote.xml.j2"
+    dest: "{{ media_kodi_configuration }}/userdata/keymaps/remote.xml"
     mode: "0644"
   notify:
     - "Stop Kodi"
-    - "Copy IPTV configuration settings"
+    - "Copy remote keymaps configuration"
     - "Restart Kodi"
 
 - name: "Set GUI settings"

@@ -11,10 +11,10 @@
     state: "stopped"
   become: yes
 
-- name: "Copy IPTV configuration settings"
+- name: "Copy remote keymaps configuration"
   template:
-    src: "kodi/pvr.iptvsimple.xml.j2"
-    dest: "{{ media_kodi_configuration }}/addon_data/pvr.iptvsimple/settings.xml"
+    src: "kodi/remote.xml.j2"
+    dest: "{{ media_kodi_configuration }}/userdata/keymaps/remote.xml"
     mode: "0644"
 
 - name: "Set Kodi GUI settings"
