@@ -14,3 +14,8 @@
     - { role: "shell", tags: "shell" }
     - { role: "sync", tags: "sync" }
     - { role: "network", tags: "network" }
+
+  post_tasks:
+    - name: "Display message about how to execute argon script"
+      debug:
+        msg: "Please run '/usr/local/bin/argon1.sh'"
