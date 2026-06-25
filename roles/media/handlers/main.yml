@@ -1,10 +1,4 @@
 ---
-- name: "Restart spotifyd"
-  systemd:
-    name: "spotifyd"
-    state: "restarted"
-  become: yes
-
 - name: "Stop Kodi"
   systemd:
     name: "kodi"

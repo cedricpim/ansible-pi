@@ -11,4 +11,3 @@
   become: yes
 
 - import_tasks: "kodi.yml"
-- import_tasks: "spotify.yml"

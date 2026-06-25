@@ -1,2 +1,0 @@
----
-spotifyd_version_output: "spotifyd {{ media_spotifyd_version }}"
