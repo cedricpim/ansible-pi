@@ -4,8 +4,6 @@ background_color: "dark"
 colorscheme_style: "oceanic"
 wiki: "~/Sync/general/files/wiki"
 
-default_browser: "firefox"
-
 ansible_managed: |
   WARNING: This file is managed by Ansible
   Template: {{ template_path }}

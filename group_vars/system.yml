@@ -1,5 +1,4 @@
 ---
-general_user: "{{ vault_general_user }}"
 general_sshd_ports: "{{ vault_general_sshd_ports }}"
 
 media_kodi_epg_url: "{{ vault_media_kodi_epg_url }}"

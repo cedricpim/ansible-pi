@@ -16,7 +16,6 @@
     - { role: "general", tags: "general" }
     - { role: "media", tags: "media" }
     - { role: "editor", tags: "editor" }
-    - { role: "zsh", tags: "zsh" }
     - { role: "shell", tags: "shell" }
     - { role: "sync", tags: "sync" }
     - { role: "network", tags: "network" }
