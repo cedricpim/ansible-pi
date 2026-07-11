@@ -1,12 +1,4 @@
 ---
-- name: "Create {{ general_user }} user"
-  user:
-    name: "{{ general_user }}"
-    password: "{{ general_password }}"
-    create_home: yes
-    state: "present"
-  become: yes
-
 - name: "Copy argon1.sh script"
   copy:
     src: "argon1.sh"
@@ -19,14 +11,6 @@
     src: "argononed.conf.j2"
     dest: "{{ argononed_conf_path }}"
     mode: "0644"
-  become: yes
-
-- name: "Set authorized key from local user"
-  block:
-    - stat: path="~/.ssh/raspberry_id_rsa.pub"
-      register: raspberry_pi_key
-    - authorized_key: user="{{ general_user }}" key="{{ lookup('file', '~/.ssh/raspberry_id_rsa.pub') }}" state="present"
-      when: raspberry_pi_key is defined and raspberry_pi_key.stat.islnk is defined
   become: yes
 
 - name: "Set SSHD settings"
@@ -53,14 +37,3 @@
       - "git"
       - "borgbackup"
   become: yes
-
-- name: "Generate SSH keys"
-  user:
-    name: "{{ item.owner }}"
-    generate_ssh_key: yes
-    ssh_key_file: ".ssh/{{ item.service }}_id"
-    ssh_key_type: "{{ item.type }}"
-    ssh_key_passphrase: "{{ item.passphrase }}"
-    ssh_key_comment: "{{ item.owner }}@{{ item.service }}"
-  with_items: "{{ general_ssh_keys }}"
-  no_log: yes

@@ -1,10 +1,4 @@
 ---
-- name: "Stop Kodi"
-  systemd:
-    name: "kodi"
-    state: "stopped"
-  become: yes
-
 - name: "Copy remote keymaps configuration"
   template:
     src: "kodi/remote.xml.j2"
@@ -18,9 +12,3 @@
     line: "    <setting id=\"{{ item.option }}\">{{ item.value }}</setting>"
     state: present
   with_items: "{{ media_kodi_options }}"
-
-- name: "Restart Kodi"
-  systemd:
-    name: "kodi"
-    state: "restarted"
-  become: yes

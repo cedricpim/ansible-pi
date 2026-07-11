@@ -15,27 +15,6 @@
     - "TV Shows"
     - "Movies"
 
-- name: "Create user systemd folder"
-  file:
-    path: "{{ user_systemd_directory }}"
-    mode: "0755"
-    state: "directory"
-
-- name: "Copy Kodi systemd"
-  template:
-    src: "kodi.service.j2"
-    dest: "{{ systemd_directory }}/kodi.service"
-    mode: "0644"
-  become: yes
-  notify: "Restart Kodi"
-
-- name: "Start Kodi [create application folders]"
-  systemd:
-    daemon_reload: yes
-    name: "kodi"
-    state: "started"
-  become: yes
-
 - name: "Create remote keymap folder"
   file:
     path: "{{ media_kodi_configuration }}/userdata/keymaps"
@@ -48,9 +27,7 @@
     dest: "{{ media_kodi_configuration }}/userdata/keymaps/remote.xml"
     mode: "0644"
   notify:
-    - "Stop Kodi"
     - "Copy remote keymaps configuration"
-    - "Restart Kodi"
 
 - name: "Set GUI settings"
   lineinfile:
@@ -60,14 +37,4 @@
     state: present
   with_items: "{{ media_kodi_options }}"
   notify:
-    - "Stop Kodi"
     - "Set Kodi GUI settings"
-    - "Restart Kodi"
-
-- name: "Start/Enable Kodi"
-  systemd:
-    name: "kodi"
-    state: "started"
-    enabled: yes
-    daemon_reload: yes
-  become: yes

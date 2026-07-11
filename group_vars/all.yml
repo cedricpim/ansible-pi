@@ -1,15 +1,16 @@
 ---
 scripts_directory: "/usr/local/bin"
 
-systemd_directory: "/lib/systemd/system"
-user_systemd_directory: "~/.config/systemd/user"
-
-operative_system: "Raspbian"
-operative_system_version: "10"
-
 colorscheme_name: "vim-material"
 background_color: "dark"
 colorscheme_style: "oceanic"
 wiki: "~/Sync/general/files/wiki"
 
 default_browser: "firefox"
+
+ansible_managed: |
+  WARNING: This file is managed by Ansible
+  Template: {{ template_path }}
+  Modified: {{ ansible_facts.date_time.iso8601 }}
+  Host: {{ ansible_facts.hostname }}
+  DO NOT EDIT MANUALLY - Changes will be overwritten

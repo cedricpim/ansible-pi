@@ -4,21 +4,12 @@
     name:
       - "vim"
       - "xsel"
-      - "exuberant-ctags"
       - "ripgrep"
       - "libvterm-dev"
       - "neovim"
       - "python3-neovim"
     state: "present"
   become: yes
-
-- name: "Install plugin dependencies"
-  pip:
-    name:
-      - "pynvim"
-      - "Send2Trash"
-    state: "latest"
-    extra_args: "--user"
 
 - name: "Download neovim configuration repository"
   git:
@@ -27,14 +18,3 @@
     depth: 1
     clone: yes
     update: yes
-
-- name: "Create folder for neovim dictionaries"
-  file:
-    path: "{{ neovim_spell_dest }}"
-    state: "directory"
-
-- name: "Install neovim dictionaries"
-  get_url:
-    url: "{{ neovim_spell_url }}/{{ item }}"
-    dest: "{{ neovim_spell_dest }}"
-  with_items: "{{ neovim_spell_dictionaries }}"
