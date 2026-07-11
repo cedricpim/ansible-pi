@@ -2,8 +2,8 @@
 - name: "Install Kodi"
   apt:
     name:
-      - "kodi21"
-      - "kodi21-pvr-hts"
+      - "kodi"
+      - "kodi-pvr-hts"
   become: yes
 
 - name: "Create folder for different Media"
