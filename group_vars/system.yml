@@ -10,8 +10,6 @@ media_kodi_webserver_password: "{{ vault_media_kodi_webserver_password }}"
 git_full_name: "{{ vault_git_full_name }}"
 git_email: "{{ vault_git_email }}"
 
-ssh_entries: "{{ vault_ssh_entries }}"
-
 syncthing_port: "{{ vault_syncthing_port }}"
 
 network_wireguard_public_key: "{{ vault_network_wireguard_public_key }}"
