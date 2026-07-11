@@ -1,18 +1,4 @@
 ---
-- name: "Copy argon1.sh script"
-  copy:
-    src: "argon1.sh"
-    dest: "/usr/local/bin/argon1.sh"
-    mode: "0755"
-  become: yes
-
-- name: "Copy argononed configuration"
-  template:
-    src: "argononed.conf.j2"
-    dest: "{{ argononed_conf_path }}"
-    mode: "0644"
-  become: yes
-
 - name: "Set SSHD settings"
   template:
     src: "sshd_config.j2"
@@ -37,3 +23,21 @@
       - "git"
       - "borgbackup"
   become: yes
+
+- name: Check if argononed is installed
+  stat:
+    path: "/usr/bin/argonone-config"
+  register: argonone
+
+- name: "Download Argon One installer"
+  get_url:
+    url: "{{ argon1_url }}"
+    dest: "/tmp/argon1.sh"
+    mode: "0755"
+    checksum: "{{ argon1_checksum }}"
+  when: not argonone.stat.exists
+
+- name: "Run Argon One installer"
+  command:
+    cmd: "/tmp/argon1.sh"
+  when: not argonone.stat.exists
