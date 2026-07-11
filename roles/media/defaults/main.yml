@@ -2,7 +2,7 @@
 media_folder: "~/Media"
 
 media_kodi_user: "kodi"
-media_kodi_configuration: "~{{ general_user }}/.kodi/userdata"
+media_kodi_configuration: "~/.kodi/userdata"
 media_kodi_epg_url: "IPTV EPG URL"
 media_kodi_m3u_url: "IPTV M3U URL"
 media_kodi_options:

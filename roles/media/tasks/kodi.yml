@@ -4,6 +4,7 @@
     name:
       - "kodi"
       - "kodi-pvr-hts"
+      - "kodi-eventclients-kodi-send"
   become: yes
 
 - name: "Create folder for different Media"
@@ -15,19 +16,43 @@
     - "TV Shows"
     - "Movies"
 
+- name: "Check if Kodi has been initialized"
+  stat:
+    path: "{{ media_kodi_configuration }}"
+  register: kodi_config
+
+- name: "Initialize Kodi profile"
+  block:
+    - name: "Start Kodi, wait and quit"
+      shell: |
+        kodi &
+        sleep 5
+        kodi-send --action=Quit
+      become: true
+      become_user: "{{ ansible_user }}"
+    - name: "Wait for Kodi to exit"
+      command: "pgrep -x kodi.bin"
+      register: "kodi_process"
+      failed_when: false
+      changed_when: false
+      retries: 30
+      delay: 1
+      until: "kodi_process.rc != 0"
+      become: true
+      become_user: "{{ ansible_user }}"
+  when: not kodi_config.stat.exists
+
 - name: "Create remote keymap folder"
   file:
-    path: "{{ media_kodi_configuration }}/userdata/keymaps"
+    path: "{{ media_kodi_configuration }}/keymaps"
     mode: "0755"
     state: "directory"
 
 - name: "Copy remote keymaps configuration"
   template:
     src: "kodi/remote.xml.j2"
-    dest: "{{ media_kodi_configuration }}/userdata/keymaps/remote.xml"
+    dest: "{{ media_kodi_configuration }}/keymaps/remote.xml"
     mode: "0644"
-  notify:
-    - "Copy remote keymaps configuration"
 
 - name: "Set GUI settings"
   lineinfile:
@@ -36,5 +61,17 @@
     line: "    <setting id=\"{{ item.option }}\">{{ item.value }}</setting>"
     state: present
   with_items: "{{ media_kodi_options }}"
-  notify:
-    - "Set Kodi GUI settings"
+
+- name: "Ensure Labwc configuration directory exists"
+  file:
+    path: "~/.config/labwc"
+    mode: "0755"
+    state: "directory"
+
+- name: "Start Kodi automatically in Labwc"
+  lineinfile:
+    path: "~/.config/labwc/autostart"
+    line: "kodi &"
+    mode: "0644"
+    state: "present"
+    create: true
