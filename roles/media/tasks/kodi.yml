@@ -71,7 +71,7 @@
 - name: "Start Kodi automatically in Labwc"
   lineinfile:
     path: "~/.config/labwc/autostart"
-    line: "kodi &"
+    line: "kodi --audio-backend=alsa &"
     mode: "0644"
     state: "present"
     create: true
