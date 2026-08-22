@@ -20,3 +20,5 @@
     state: "started"
     enabled: yes
   become: yes
+
+- import_tasks: "tailscale.yml"

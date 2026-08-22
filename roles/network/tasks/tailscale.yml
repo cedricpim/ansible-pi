@@ -1,0 +1,48 @@
+---
+# Installation guide: https://pimylifeup.com/raspberry-pi-tailscale/
+- name: "Install Tailscale repository dependencies"
+  apt:
+    name:
+      - "ca-certificates"
+      - "lsb-release"
+  become: yes
+
+- name: "Install Tailscale repository signing key"
+  get_url:
+    url: "https://pkgs.tailscale.com/stable/raspbian/{{ ansible_distribution_release }}.noarmor.gpg"
+    dest: "/usr/share/keyrings/tailscale-archive-keyring.gpg"
+    mode: "0644"
+  become: yes
+
+- name: "Configure Tailscale repository"
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/raspbian {{ ansible_distribution_release }} main"
+    filename: "tailscale"
+    state: "present"
+    update_cache: yes
+  become: yes
+
+- name: "Install Tailscale"
+  apt:
+    name: "tailscale"
+    state: "present"
+  become: yes
+
+- name: "Start/Enable Tailscale"
+  systemd:
+    name: "tailscaled.service"
+    state: "started"
+    enabled: yes
+  become: yes
+
+- name: "Check Tailscale connection"
+  command:
+    cmd: "tailscale status"
+  register: tailscale_status
+  changed_when: no
+  failed_when: no
+
+- name: "Show Tailscale authentication instructions"
+  debug:
+    msg: "Tailscale is not connected. Run 'sudo tailscale up' on this host and follow the Authenticate with Tailscale URL."
+  when: tailscale_status.rc != 0
