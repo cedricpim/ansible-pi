@@ -75,3 +75,12 @@
     mode: "0644"
     state: "present"
     create: true
+
+- name: "Install restart-kodi script"
+  template:
+    src: "kodi/restart-kodi.j2"
+    dest: "/usr/local/bin/restart-kodi"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  become: true
