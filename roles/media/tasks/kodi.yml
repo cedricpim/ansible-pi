@@ -71,7 +71,8 @@
 - name: "Start Kodi automatically in Labwc"
   lineinfile:
     path: "~/.config/labwc/autostart"
-    line: "kodi --audio-backend=alsa &"
+    regexp: '^\s*kodi\s+(?:(?:-fs|--windowing=\w+)\s+)*--audio-backend=alsa\s*&\s*$'
+    line: "kodi --windowing=wayland -fs --audio-backend=alsa &"
     mode: "0644"
     state: "present"
     create: true

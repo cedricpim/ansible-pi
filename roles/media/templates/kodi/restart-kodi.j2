@@ -19,6 +19,6 @@ if pgrep -x kodi.bin >/dev/null; then
 fi
 
 echo "Starting Kodi..."
-DISPLAY=:0 kodi --audio-backend=alsa >/dev/null 2>&1 &
+DISPLAY=:0 kodi --windowing=wayland -fs --audio-backend=alsa >/dev/null 2>&1 &
 
 echo "Kodi restarted."
